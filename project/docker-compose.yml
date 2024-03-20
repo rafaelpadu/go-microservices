@@ -6,7 +6,26 @@ services:
       context: ./../broker-service
       dockerfile: ./../broker-service/broker-service.dockerfile
     ports:
-      - "8080:8086"
+      - "8086:80"
     deploy:
       mode: replicated
       replicas: 1
+    networks:
+      - go-micro-network
+  authentication-service:
+    build:
+      context: ./../authentication-service
+      dockerfile: ./../authentication-service/authentication-service.dockerfile
+    ports:
+      - "8087:80"
+    deploy:
+      mode: replicated
+      replicas: 1
+    environment:
+      DSN: "host=project_postgres-golang_1 port=5432 user=postgres password=postgres dbname=users sslmode=disable timezone=UTC connect_timeout=5"
+    networks:
+      - go-micro-network
+
+networks:
+  go-micro-network:
+    external: true

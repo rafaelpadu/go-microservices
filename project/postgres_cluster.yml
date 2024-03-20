@@ -1,0 +1,27 @@
+version: '3.7'
+services:
+  postgres-golang:
+    image: 'postgres:latest'
+    ports:
+      - "5432:5432"
+    deploy:
+      mode: replicated
+      replicas: 1
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: users
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - go-micro-network
+    extra_hosts:
+      - "host.docker.internal:172.17.0.1"
+
+
+networks:
+  go-micro-network:
+    external: true
+
+volumes:
+  pgdata:
