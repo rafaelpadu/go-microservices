@@ -25,7 +25,15 @@ services:
       DSN: "host=project_postgres-golang_1 port=5432 user=postgres password=postgres dbname=users sslmode=disable timezone=UTC connect_timeout=5"
     networks:
       - go-micro-network
-
+  logger-service:
+    build:
+      context: ./../logger-service
+      dockerfile: ./../logger-service/logger-service.dockerfile
+    deploy:
+      mode: replicated
+      replicas: 1
+    networks:
+      - go-micro-network
 networks:
   go-micro-network:
     external: true
