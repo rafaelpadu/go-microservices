@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
+	"io"
 	"net/http"
 )
 
@@ -71,7 +72,13 @@ func (app *Config) logItem(w http.ResponseWriter, payload LogPayload) {
 		_ = app.errorJSON(w, err)
 		return
 	}
-	defer response.Body.Close()
+	defer func(Body io.ReadCloser) {
+		err := Body.Close()
+		if err != nil {
+			_ = app.errorJSON(w, err)
+			return
+		}
+	}(response.Body)
 
 	if response.StatusCode != http.StatusAccepted {
 		_ = app.errorJSON(w, err)
