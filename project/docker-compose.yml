@@ -12,6 +12,7 @@ services:
       replicas: 1
     networks:
       - go-micro-network
+
   authentication-service:
     build:
       context: ./../authentication-service
@@ -25,6 +26,7 @@ services:
       DSN: "host=project_postgres-golang_1 port=5432 user=postgres password=postgres dbname=users sslmode=disable timezone=UTC connect_timeout=5"
     networks:
       - go-micro-network
+
   logger-service:
     build:
       context: ./../logger-service
@@ -34,6 +36,27 @@ services:
       replicas: 1
     networks:
       - go-micro-network
+
+  mailhog:
+    image: 'mailhog/mailhog:latest'
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+    networks:
+      - go-micro-network
+
+  mail-service:
+    build:
+      context: ./../mail-service
+      dockerfile: ./../mail-service/mail-service.dockerfile
+    deploy:
+      mode: replicated
+      replicas: 1
+    ports:
+      - "8088:80"
+    networks:
+      - go-micro-network
+
 networks:
   go-micro-network:
     external: true
