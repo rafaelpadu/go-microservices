@@ -5,6 +5,7 @@ import (
 	"github.com/vanng822/go-premailer/premailer"
 	mail "github.com/xhit/go-simple-mail/v2"
 	"html/template"
+	"log"
 	"time"
 )
 
@@ -44,10 +45,12 @@ func (m *Mail) SendSMTPMessage(msg Message) error {
 
 	formattedMsg, err := m.buildHTMLMessage(msg)
 	if err != nil {
+		log.Println(err)
 		return err
 	}
 	plainMessage, err := m.buildPlainTextMessage(msg)
 	if err != nil {
+		log.Println(err)
 		return err
 	}
 
@@ -55,9 +58,10 @@ func (m *Mail) SendSMTPMessage(msg Message) error {
 
 	smtpClient, err := mailServer.Connect()
 	if err != nil {
+		log.Println(err)
 		return err
 	}
-
+	log.Println("Email to: " + msg.To)
 	email := mail.NewMSG()
 	email.SetFrom(msg.From).
 		AddTo(msg.To).
@@ -72,6 +76,7 @@ func (m *Mail) SendSMTPMessage(msg Message) error {
 	}
 	err = email.Send(smtpClient)
 	if err != nil {
+		log.Println(err)
 		return err
 	}
 	return nil
@@ -95,11 +100,13 @@ func (m *Mail) buildHTMLMessage(msg Message) (string, error) {
 
 	t, err := template.New("email-html").ParseFiles(templateToRender)
 	if err != nil {
+		log.Println(err)
 		return "", err
 	}
 
 	var tpl bytes.Buffer
 	if err = t.ExecuteTemplate(&tpl, "body", msg.DataMap); err != nil {
+		log.Println(err)
 		return "", err
 	}
 
@@ -107,6 +114,7 @@ func (m *Mail) buildHTMLMessage(msg Message) (string, error) {
 
 	formattedMsg, err = m.inlineCSS(formattedMsg)
 	if err != nil {
+		log.Println(err)
 		return "", err
 	}
 
@@ -122,11 +130,13 @@ func (m *Mail) inlineCSS(msg string) (string, error) {
 
 	prem, err := premailer.NewPremailerFromString(msg, &options)
 	if err != nil {
+		log.Println(err)
 		return "", err
 	}
 
 	html, err := prem.Transform()
 	if err != nil {
+		log.Println(err)
 		return "", err
 	}
 	return html, nil
@@ -137,11 +147,13 @@ func (m *Mail) buildPlainTextMessage(msg Message) (string, error) {
 
 	t, err := template.New("email-plain").ParseFiles(templateToRender)
 	if err != nil {
+		log.Println(err)
 		return "", err
 	}
 
 	var tpl bytes.Buffer
 	if err = t.ExecuteTemplate(&tpl, "body", msg.DataMap); err != nil {
+		log.Println(err)
 		return "", err
 	}
 

@@ -15,7 +15,7 @@ type Config struct {
 const webPort = "80"
 
 func main() {
-
+	log.SetFlags(log.LstdFlags | log.Lshortfile)
 	app := Config{
 		Mailer: createMail(),
 	}
