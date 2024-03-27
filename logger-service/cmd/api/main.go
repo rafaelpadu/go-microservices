@@ -57,6 +57,9 @@ func main() {
 			log.Println(err)
 		}
 	}()
+
+	go app.getRpcListen()
+
 	app.serve()
 }
 
