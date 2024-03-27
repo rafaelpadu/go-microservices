@@ -30,6 +30,31 @@ services:
     networks:
       - go-micro-network
 
+  mailhog:
+    image: 'mailhog/mailhog:latest'
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+    networks:
+      - go-micro-network
+
+  rabbitmq:
+    image: 'rabbitmq:3.13.0-management-alpine'
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - go-micro-network
+    deploy:
+      mode: replicated
+      replicas: 1
+    volumes:
+      - ./db-data/rabbitmq/data:/var/lib/rabbitmq
+      - ./db-data/rabbitmq/log:/var/log/rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: 'user'
+      RABBITMQ_DEFAULT_PASS: '123456'
+
 
 networks:
   go-micro-network:
