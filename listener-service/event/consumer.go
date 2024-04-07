@@ -37,6 +37,13 @@ func (consumer *Consumer) setup() error {
 		log.Println(err)
 		return err
 	}
+	defer func(channel *amqp.Channel) {
+		err := channel.Close()
+		if err != nil {
+			log.Println("erro ao tentar fechar o canal rabbitMQ")
+			log.Println(err)
+		}
+	}(channel)
 	return declareExchange(channel)
 }
 

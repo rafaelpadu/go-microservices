@@ -59,7 +59,7 @@
                 body: JSON.stringify(payload),
                 headers: headers
             }
-            fetch("http:\/\/localhost:8086/log-grpc", body).then((resp) => resp.json()).then((data) => {
+            fetch({{print .BrokerURL "/log-grpc"}}, body).then((resp) => resp.json()).then((data) => {
                 sent.innerHTML = JSON.stringify(payload, undefined, 4)
                 received.innerHTML = JSON.stringify(data, undefined, 4);
                 if (data.error) {
@@ -88,7 +88,7 @@
                 body: JSON.stringify(payload),
                 headers: headers
             }
-            fetch("http:\/\/localhost:8086/handle", body).then((resp) => resp.json()).then((data) => {
+            fetch({{print .BrokerURL "/handle"}}, body).then((resp) => resp.json()).then((data) => {
                 sent.innerHTML = JSON.stringify(payload, undefined, 4)
                 received.innerHTML = JSON.stringify(data, undefined, 4);
                 if (data.error) {
@@ -116,7 +116,7 @@
                 body: JSON.stringify(payload),
                 headers: headers
             }
-            fetch("http:\/\/localhost:8086/handle", body).then((resp) => resp.json()).then((data) => {
+            fetch({{print .BrokerURL "/handle"}}, body).then((resp) => resp.json()).then((data) => {
                 sent.innerHTML = JSON.stringify(payload, undefined, 4)
                 received.innerHTML = JSON.stringify(data, undefined, 4);
                 if (data.error) {
@@ -143,7 +143,7 @@
                 body: JSON.stringify(payload),
                 headers: headers
             }
-            fetch("http:\/\/localhost:8086/handle", body).then((resp) => resp.json()).then((data) => {
+            fetch({{print .BrokerURL "/handle"}}, body).then((resp) => resp.json()).then((data) => {
                 sent.innerHTML = JSON.stringify(payload, undefined, 4)
                 received.innerHTML = JSON.stringify(data, undefined, 4);
                 if (data.error) {
@@ -159,7 +159,7 @@
             const body = {
                 method: "POST",
             }
-            fetch("http:\/\/localhost:8086", body).then((resp) => resp.json()).then((data) => {
+            fetch({{.BrokerURL}}, body).then((resp) => resp.json()).then((data) => {
                 sent.innerHTML = "empty post request!"
                 received.innerHTML = JSON.stringify(data, undefined, 4);
                 if (data.error) {

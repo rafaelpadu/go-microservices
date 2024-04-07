@@ -62,8 +62,8 @@ func (app *Config) HandleSubmission(w http.ResponseWriter, r *http.Request) {
 	case "auth":
 		app.authenticate(w, reqPayload.Auth)
 	case "log":
-		//app.logEvent(w, reqPayload.Log)
-		app.LogItemViaRPC(w, reqPayload.Log)
+		app.logEvent(w, reqPayload.Log)
+		//app.LogItemViaRPC(w, reqPayload.Log)
 	case "mail":
 		app.sendMail(w, reqPayload.Mail)
 	default:
