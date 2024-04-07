@@ -12,8 +12,6 @@ services:
     volumes:
       - caddy_data:/data
       - caddy_config:/config
-    networks:
-      - bridge
 
   front-end:
     image: rafaelpadua07/front-end-go:1.0.1
@@ -34,7 +32,7 @@ services:
       - bridge
 
   listener-service:
-    image: rafaelpadua07/listener-service:1.0.1
+    image: rafaelpadua07/listener-service:1.0.3
     deploy:
       mode: replicated
       replicas: 1
@@ -78,63 +76,63 @@ services:
       FROM_NAME: "Rafael de Pádua"
       FROM_ADDRESS: rafael.padua@example.com
 
-#  rabbitmq:
-#    image: 'rabbitmq:3.13.0-management-alpine'
-#    ports:
-#      - "5672:5672"
-#      - "15672:15672"
-#    volumes:
-#      - ./db-data/rabbitmq/data:/var/lib/rabbitmq
-#      - ./db-data/rabbitmq/log:/var/log/rabbitmq
-#    environment:
-#      RABBITMQ_DEFAULT_USER: 'user'
-#      RABBITMQ_DEFAULT_PASS: '123456'
-#    deploy:
-#      mode: global
-#    networks:
-#      - bridge
-#
-#  mailhog:
-#    image: 'mailhog/mailhog:latest'
-#    ports:
-#      - "8025:8025"
-#    deploy:
-#      mode: global
-#    networks:
-#      - bridge
-#
-#  mongo-golang:
-#    image: 'mongo:latest'
-#    ports:
-#      - "27017:27017"
-#    networks:
-#      - bridge
-#    deploy:
-#      mode: global
-#    environment:
-#      MONGO_INITDB_DATABASE: logs
-#      MONGO_INITDB_ROOT_USERNAME: admin
-#      MONGO_INITDB_ROOT_PASSWORD: password
-#    volumes:
-#      - ./db-data/mongo/:/data/db
-#
-#  postgres-golang:
-#    image: 'postgres:latest'
-#    ports:
-#      - "5432:5432"
-#    deploy:
-#      mode: replicated
-#      replicas: 1
-#    environment:
-#      POSTGRES_USER: postgres
-#      POSTGRES_PASSWORD: postgres
-#      POSTGRES_DB: users
-#    volumes:
-#      - pgdata:/var/lib/postgresql/data
-#    networks:
-#      - bridge
-#    extra_hosts:
-#      - "host.docker.internal:172.17.0.1"
+  rabbitmq:
+    image: 'rabbitmq:3.13.0-management-alpine'
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - ./db-data/rabbitmq/data:/var/lib/rabbitmq
+      - ./db-data/rabbitmq/log:/var/log/rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: 'user'
+      RABBITMQ_DEFAULT_PASS: '123456'
+    deploy:
+      mode: global
+    networks:
+      - bridge
+
+  mailhog:
+    image: 'mailhog/mailhog:latest'
+    ports:
+      - "8025:8025"
+    deploy:
+      mode: global
+    networks:
+      - bridge
+
+  mongo-golang:
+    image: 'mongo:latest'
+    ports:
+      - "27017:27017"
+    networks:
+      - bridge
+    deploy:
+      mode: global
+    environment:
+      MONGO_INITDB_DATABASE: logs
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password
+    volumes:
+      - ./db-data/mongo/:/data/db
+
+  postgres-golang:
+    image: 'postgres:latest'
+    ports:
+      - "5432:5432"
+    deploy:
+      mode: replicated
+      replicas: 1
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: users
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - bridge
+    extra_hosts:
+      - "host.docker.internal:172.17.0.1"
 
 networks:
   bridge:
