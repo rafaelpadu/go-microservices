@@ -1,1 +1,9 @@
 project/db-data/
+
+/authentication-service/authApp
+/broker-service/brokerApp
+/front-end/frontApp
+/front-end/frontEndApp
+/listener-service/listenerApp
+/logger-service/loggerServiceApp
+/mail-service/mailServiceApp
